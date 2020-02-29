@@ -9,7 +9,8 @@ const breakDisplay = document.querySelector('#break .display');
 const timerDisplay = document.querySelector('#clock');
 
 
-timerDisplay.textContent = timeString(minutesToSeconds(sessionDisplay.textContent));
+//timerDisplay.textContent = timeString(minutesToSeconds(sessionDisplay.textContent));
+setTimer(timeString(minutesToSeconds(sessionDisplay.textContent)))
 
 settingButtons.forEach(button => {
   button.addEventListener('click', (e) => {
@@ -25,7 +26,8 @@ settingButtons.forEach(button => {
 
 
     let sessionMinutes = sessionDisplay.textContent;
-    timerDisplay.textContent = timeString(minutesToSeconds(sessionMinutes));
+    //timerDisplay.textContent = timeString(minutesToSeconds(sessionMinutes));
+    setTimer(timeString(minutesToSeconds(sessionMinutes)));
 //    console.log(sessionDisplay.textContent.length)
   })
 })
@@ -36,10 +38,10 @@ playButton.addEventListener('click', (e) => {
   console.log(seconds);
   seconds--;
   console.log(seconds)
-  timerDisplay.textContent = timeString(seconds)
+ // timerDisplay.textContent = timeString(seconds)
  // while (seconds >= 0) {
  //   seconds--;
-  //  setTimeout(timerDisplay.textContent = timeString(seconds), 1000);
+    setTimeout(setTimer(timeString(seconds), 5000));
 
  // }
   //loop
@@ -65,6 +67,10 @@ function timeString(timeInSeconds) {
 
 function minutesToSeconds(minutes){
   return minutes*60;
+}
+
+function setTimer(newTime) {
+  timerDisplay.textContent = newTime
 }
 /*
 class Timer
