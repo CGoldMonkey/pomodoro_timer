@@ -2,10 +2,14 @@ const settingButtons = document.querySelectorAll('.settings button');
 const playButton = document.querySelector('#play');
 const pauseButton = document.querySelector('#pause');
 const resetButton = document.querySelector('#reset');
+const stopButton = document.querySelector('#stop')
 
 const sessionDisplay = document.querySelector('#session .display');
 const breakDisplay = document.querySelector('#break .display');
 const timerDisplay = document.querySelector('#clock');
+
+
+timerDisplay.textContent = timeString(minutesToSeconds(sessionDisplay.textContent));
 
 settingButtons.forEach(button => {
   button.addEventListener('click', (e) => {
@@ -18,14 +22,50 @@ settingButtons.forEach(button => {
       currentNumber--;      
     }
     display.textContent = currentNumber;
-    
-    timerDisplay.textContent = sessionDisplay.textContent;
+
+
+    let sessionMinutes = sessionDisplay.textContent;
+    timerDisplay.textContent = timeString(minutesToSeconds(sessionMinutes));
+//    console.log(sessionDisplay.textContent.length)
   })
 })
 
 playButton.addEventListener('click', (e) => {
-  
+  console.log(sessionDisplay.textContent)
+  let seconds = minutesToSeconds(sessionDisplay.textContent);
+  console.log(seconds);
+  seconds--;
+  console.log(seconds)
+  timerDisplay.textContent = timeString(seconds)
+ // while (seconds >= 0) {
+ //   seconds--;
+  //  setTimeout(timerDisplay.textContent = timeString(seconds), 1000);
+
+ // }
+  //loop
+    //wait one second
+    //--seconds
+    //display new time
+    //repeat
 })
+
+function padZero(time) {
+  time = time.toString();
+  let formattedTime = (time.length < 2) ? "0"+time : time;
+  return formattedTime;
+}
+
+function timeString(timeInSeconds) {
+  let minutes = Math.floor(timeInSeconds/60);
+  let remainingSeconds = timeInSeconds % 60;
+
+  let string = padZero(minutes)+":"+padZero(remainingSeconds);
+  return string;
+}
+
+function minutesToSeconds(minutes){
+  return minutes*60;
+}
 /*
 class Timer
   #write your code here
