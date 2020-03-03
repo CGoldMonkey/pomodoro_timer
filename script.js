@@ -8,6 +8,8 @@ const sessionDisplay = document.querySelector('#session .display');
 const breakDisplay = document.querySelector('#break .display');
 const timerDisplay = document.querySelector('#clock');
 
+let seconds;
+
 
 //timerDisplay.textContent = timeString(minutesToSeconds(sessionDisplay.textContent));
 setTimer(timeString(minutesToSeconds(sessionDisplay.textContent)))
@@ -33,23 +35,16 @@ settingButtons.forEach(button => {
 })
 
 playButton.addEventListener('click', (e) => {
-  console.log(sessionDisplay.textContent)
-  let seconds = minutesToSeconds(sessionDisplay.textContent);
-  console.log(seconds);
-  seconds--;
-  console.log(seconds)
- // timerDisplay.textContent = timeString(seconds)
- // while (seconds >= 0) {
- //   seconds--;
-    setTimeout(setTimer(timeString(seconds), 5000));
-
- // }
-  //loop
-    //wait one second
-    //--seconds
-    //display new time
-    //repeat
+  playButton.disabled = true;
+  seconds = minutesToSeconds(sessionDisplay.textContent);
+  countdownTimer();
 })
+
+function countdownTimer() {
+  setTimer(timeString(seconds));
+  seconds--;
+  setTimeout(countdownTimer, 1000);
+}
 
 function padZero(time) {
   time = time.toString();
