@@ -8,10 +8,12 @@ const sessionDisplay = document.querySelector('#session .display');
 const breakDisplay = document.querySelector('#break .display');
 const timerDisplay = document.querySelector('#clock');
 
+const timerBanner = document.querySelector('#timer h2');
+
+let session = true;
+
 let seconds;
 
-
-//timerDisplay.textContent = timeString(minutesToSeconds(sessionDisplay.textContent));
 setTimer(timeString(minutesToSeconds(sessionDisplay.textContent)))
 
 settingButtons.forEach(button => {
@@ -38,9 +40,31 @@ playButton.addEventListener('click', (e) => {
   playButton.disabled = true;
   seconds = minutesToSeconds(sessionDisplay.textContent);
   countdownTimer();
+
+  //timer runs down to 0 then switches to break and back
 })
 
+function switchTimer() {
+  //if session change  to break, change seconds too
+  if (session) {
+    session = false;
+    timerBanner.textContent = "Break";
+    seconds = minutesToSeconds(breakDisplay.textContent);
+  } else {
+    session = true;
+    timerBanner.textContent = "Session";
+    seconds = minutesToSeconds(sessionDisplay.textContent);
+  }
+
+  //else change to session and timer seconds
+}
+
 function countdownTimer() {
+  //if it reaches 0, switch status and coundown again
+  console.log(seconds)
+  if (seconds < 0) {
+    switchTimer();
+  }
   setTimer(timeString(seconds));
   seconds--;
   setTimeout(countdownTimer, 1000);
