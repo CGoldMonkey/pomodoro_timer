@@ -13,6 +13,7 @@ const timerBanner = document.querySelector('#timer h2');
 let session = true;
 
 let seconds;
+let timeout;
 
 setTimer(timeString(minutesToSeconds(sessionDisplay.textContent)))
 
@@ -28,24 +29,31 @@ settingButtons.forEach(button => {
     }
     display.textContent = currentNumber;
 
+    seconds = minutesToSeconds(sessionDisplay.textContent);
 
-    let sessionMinutes = sessionDisplay.textContent;
+ //   let sessionMinutes = sessionDisplay.textContent;
     //timerDisplay.textContent = timeString(minutesToSeconds(sessionMinutes));
-    setTimer(timeString(minutesToSeconds(sessionMinutes)));
+
+    setTimer(timeString(seconds));
 //    console.log(sessionDisplay.textContent.length)
   })
 })
 
 playButton.addEventListener('click', (e) => {
   playButton.disabled = true;
-  seconds = minutesToSeconds(sessionDisplay.textContent);
+  pauseButton.disabled = false;
+  //seconds = minutesToSeconds(sessionDisplay.textContent);
   countdownTimer();
+})
 
-  //timer runs down to 0 then switches to break and back
+pauseButton.addEventListener('click', (e) => {
+  pauseButton.disabled = true;
+  playButton.disabled = false;
+  clearTimeout(timeout);
+  seconds++;
 })
 
 function switchTimer() {
-  //if session change  to break, change seconds too
   if (session) {
     session = false;
     timerBanner.textContent = "Break";
@@ -55,19 +63,15 @@ function switchTimer() {
     timerBanner.textContent = "Session";
     seconds = minutesToSeconds(sessionDisplay.textContent);
   }
-
-  //else change to session and timer seconds
 }
 
 function countdownTimer() {
-  //if it reaches 0, switch status and coundown again
-  console.log(seconds)
   if (seconds < 0) {
     switchTimer();
   }
   setTimer(timeString(seconds));
   seconds--;
-  setTimeout(countdownTimer, 1000);
+  timeout = setTimeout(countdownTimer, 1000);
 }
 
 function padZero(time) {
