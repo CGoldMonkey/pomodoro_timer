@@ -13,7 +13,7 @@ const timerBanner = document.querySelector('#timer h2');
 let session = true;
 
 let seconds;
-let timeout;
+let timerCountdown;
 
 setTimer(timeString(minutesToSeconds(sessionDisplay.textContent)))
 
@@ -29,8 +29,8 @@ settingButtons.forEach(button => {
     }
     display.textContent = currentNumber;
 
-    seconds = minutesToSeconds(sessionDisplay.textContent);
 
+    seconds = minutesToSeconds(sessionDisplay.textContent);
  //   let sessionMinutes = sessionDisplay.textContent;
     //timerDisplay.textContent = timeString(minutesToSeconds(sessionMinutes));
 
@@ -49,8 +49,22 @@ playButton.addEventListener('click', (e) => {
 pauseButton.addEventListener('click', (e) => {
   pauseButton.disabled = true;
   playButton.disabled = false;
-  clearTimeout(timeout);
+  clearTimeout(timerCountdown);
   seconds++;
+})
+
+resetButton.addEventListener('click', (e) => {
+  pauseButton.disabled = false;
+  playButton.disabled = false;
+  //stop clock
+  //reset session and break to default (25 and 5)
+  clearTimeout(timerCountdown);
+
+  sessionDisplay.textContent = 25;
+  breakDisplay.textContent = 5;
+
+  seconds = minutesToSeconds(sessionDisplay.textContent);
+  setTimer(timeString(seconds))
 })
 
 function switchTimer() {
@@ -71,7 +85,7 @@ function countdownTimer() {
   }
   setTimer(timeString(seconds));
   seconds--;
-  timeout = setTimeout(countdownTimer, 1000);
+  timerCountdown = setTimeout(countdownTimer, 1000);
 }
 
 function padZero(time) {
