@@ -63,6 +63,22 @@ resetButton.addEventListener('click', (e) => {
   sessionDisplay.textContent = 25;
   breakDisplay.textContent = 5;
 
+  session = true;
+  timerBanner.textContent = "Session";
+
+  seconds = minutesToSeconds(sessionDisplay.textContent);
+  setTimer(timeString(seconds))
+})
+
+stopButton.addEventListener('click', (e) => {
+  pauseButton.disabled = false;
+  playButton.disabled = false;
+
+  clearTimeout(timerCountdown);
+
+  session = true;
+  timerBanner.textContent = "Session";
+
   seconds = minutesToSeconds(sessionDisplay.textContent);
   setTimer(timeString(seconds))
 })
