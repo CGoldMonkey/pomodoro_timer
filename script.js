@@ -12,10 +12,12 @@ const timerBanner = document.querySelector('#timer h2');
 
 let session = true;
 
-let seconds;
 let timerCountdown;
 
-setTimer(timeString(minutesToSeconds(sessionDisplay.textContent)))
+let seconds = minutesToSeconds(sessionDisplay.textContent);
+setTimer(timeString(seconds));
+
+pauseButton.disabled = true;
 
 settingButtons.forEach(button => {
   button.addEventListener('click', (e) => {
@@ -24,8 +26,10 @@ settingButtons.forEach(button => {
 
     if (e.target.textContent === '+') {
       currentNumber++;
+    } else if (currentNumber === 1){
+      currentNumber = 1;
     } else {
-      currentNumber--;      
+      currentNumber--;
     }
     display.textContent = currentNumber;
 
@@ -42,6 +46,10 @@ settingButtons.forEach(button => {
 playButton.addEventListener('click', (e) => {
   playButton.disabled = true;
   pauseButton.disabled = false;
+  settingButtons.disabled = true;
+  settingButtons.forEach(button => {
+    button.disabled = true;
+  })
   //seconds = minutesToSeconds(sessionDisplay.textContent);
   countdownTimer();
 })
@@ -56,6 +64,9 @@ pauseButton.addEventListener('click', (e) => {
 resetButton.addEventListener('click', (e) => {
   pauseButton.disabled = false;
   playButton.disabled = false;
+  settingButtons.forEach(button => {
+    button.disabled = false;
+  })
   //stop clock
   //reset session and break to default (25 and 5)
   clearTimeout(timerCountdown);
@@ -73,6 +84,9 @@ resetButton.addEventListener('click', (e) => {
 stopButton.addEventListener('click', (e) => {
   pauseButton.disabled = false;
   playButton.disabled = false;
+  settingButtons.forEach(button => {
+    button.disabled = false;
+  })
 
   clearTimeout(timerCountdown);
 
