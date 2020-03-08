@@ -11,11 +11,10 @@ const timerDisplay = document.querySelector('#clock');
 const timerBanner = document.querySelector('#timer h2');
 
 let session = true;
+let seconds = minutesToSeconds(sessionDisplay.textContent);
+setTimer();
 
 let timerCountdown;
-
-let seconds = minutesToSeconds(sessionDisplay.textContent);
-setTimer(timeString(seconds));
 
 pauseButton.disabled = true;
 
@@ -32,25 +31,17 @@ settingButtons.forEach(button => {
       currentNumber--;
     }
     display.textContent = currentNumber;
-
-
     seconds = minutesToSeconds(sessionDisplay.textContent);
- //   let sessionMinutes = sessionDisplay.textContent;
-    //timerDisplay.textContent = timeString(minutesToSeconds(sessionMinutes));
-
-    setTimer(timeString(seconds));
-//    console.log(sessionDisplay.textContent.length)
+    setTimer();
   })
 })
 
 playButton.addEventListener('click', (e) => {
   playButton.disabled = true;
   pauseButton.disabled = false;
-  settingButtons.disabled = true;
   settingButtons.forEach(button => {
     button.disabled = true;
   })
-  //seconds = minutesToSeconds(sessionDisplay.textContent);
   countdownTimer();
 })
 
@@ -62,40 +53,38 @@ pauseButton.addEventListener('click', (e) => {
 })
 
 resetButton.addEventListener('click', (e) => {
-  pauseButton.disabled = false;
-  playButton.disabled = false;
-  settingButtons.forEach(button => {
-    button.disabled = false;
-  })
-  //stop clock
-  //reset session and break to default (25 and 5)
-  clearTimeout(timerCountdown);
-
+  resetInitialSettings();
+  
   sessionDisplay.textContent = 25;
   breakDisplay.textContent = 5;
 
-  session = true;
-  timerBanner.textContent = "Session";
-
   seconds = minutesToSeconds(sessionDisplay.textContent);
-  setTimer(timeString(seconds))
+  setTimer()
 })
 
 stopButton.addEventListener('click', (e) => {
-  pauseButton.disabled = false;
+  resetInitialSettings();
+  
+  seconds = minutesToSeconds(sessionDisplay.textContent);
+  setTimer()
+})
+
+function resetInitialSettings() {
   playButton.disabled = false;
-  settingButtons.forEach(button => {
-    button.disabled = false;
-  })
+  pauseButton.disabled = true;
+  enableSettingsButtons();
 
   clearTimeout(timerCountdown);
 
   session = true;
   timerBanner.textContent = "Session";
+}
 
-  seconds = minutesToSeconds(sessionDisplay.textContent);
-  setTimer(timeString(seconds))
-})
+function enableSettingsButtons() {
+  settingButtons.forEach(button => {
+    button.disabled = false;
+  })
+}
 
 function switchTimer() {
   if (session) {
@@ -113,7 +102,7 @@ function countdownTimer() {
   if (seconds < 0) {
     switchTimer();
   }
-  setTimer(timeString(seconds));
+  setTimer();
   seconds--;
   timerCountdown = setTimeout(countdownTimer, 1000);
 }
@@ -124,39 +113,15 @@ function padZero(time) {
   return formattedTime;
 }
 
-function timeString(timeInSeconds) {
-  let minutes = Math.floor(timeInSeconds/60);
-  let remainingSeconds = timeInSeconds % 60;
-
-  let string = padZero(minutes)+":"+padZero(remainingSeconds);
-  return string;
-}
-
 function minutesToSeconds(minutes){
   return minutes*60;
 }
 
-function setTimer(newTime) {
-  timerDisplay.textContent = newTime
+function setTimer() {
+  let minutes = Math.floor(seconds/60);
+  let remainingSeconds = seconds % 60;
+
+  let timeString = padZero(minutes)+":"+padZero(remainingSeconds);
+
+  timerDisplay.textContent = timeString
 }
-/*
-class Timer
-  #write your code here
-  attr_accessor :seconds
-
-  def initialize
-    @seconds = 0
-  end
-
-  def time_string
-    hours = @seconds/3600
-    remaing_seconds = @seconds - (hours * 3600)
-    minutes = remaing_seconds/60
-    remaing_seconds = remaing_seconds - (minutes * 60)
-    second = remaing_seconds%60
-
-    string = "%02d:%02d:%02d"% [hours, minutes, second]
-    return string
-  end
-end
-*/
