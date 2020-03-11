@@ -1,5 +1,13 @@
+body {
+  text-align: center;
+}
+
 .container {
   /* Positioning declarations */
+  margin: 0 auto;
+
+  /* display: flex; */
+
 
   /* Dimensions */
   width: 600px;
@@ -11,4 +19,39 @@
 div {
   border: 1px solid orange;
 
+}
+
+.settings {
+  border: 3px solid green;
+}
+
+.settings div {
+  /*Dimensions
+  width: 250px;
+  float: left;
+  */
+  width: 250px;
+
+}
+
+#session {
+  /*
+  float: left;
+  */
+}
+
+#break {
+  /*
+  float: right;
+  */
+}
+
+.settings {
+/* display: flex; */
+  display: flex;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 100px;
 }
